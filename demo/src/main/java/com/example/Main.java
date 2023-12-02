@@ -1,57 +1,63 @@
+
+
 package com.example;
 
-public class Main {
-    public static void main(String[] args) {
-        // Créer quelques produits
-        Produit produit1 = new Produit();
-        produit1.setNumProd(1);
-        produit1.setNomProd("Produit 1");
-        produit1.setquantiteEnStockProd(10);
-        produit1.setprixProd(29.99);
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-        Produit produit2 = new Produit();
-        produit2.setNumProd(2);
-        produit2.setNomProd("Produit 33");
-        produit2.setquantiteEnStockProd(5);
-        produit2.setprixProd(19.99);
+public class Main extends Application {
+
 
         // Créer un magasin
-        Magasin magasin = new Magasin("Mon Magasin", "123 Rue de la Ville");
-
-        // Ajouter les produits au magasin
-        magasin.addProduit(produit1);
-        magasin.addProduit(produit2);
-
-        // Afficher les informations du magasin
-        System.out.println("Nom du magasin : " + magasin.getNomMag());
-        System.out.println("Adresse du magasin : " + magasin.getAdresse());
-
-        // Afficher les produits du magasin
-        System.out.println("Liste des produits dans le magasin :");
-        for (Produit produit : magasin.getProduits()) {
-            System.out.println(produit.toString());
-        }
-
-        // Tester la réservation d'un produit
-        boolean reservationReussie = magasin.reservation("Produit 1", 3);
-        if (reservationReussie) {
-            System.out.println("Réservation réussie !");
-        } else {
-            System.out.println("La réservation a échoué. Stock insuffisant.");
-        }
-
-        // Afficher à nouveau les informations des produits après la réservation
-        System.out.println("Liste des produits dans le magasin après la réservation :");
-        for (Produit produit : magasin.getProduits()) {
-            System.out.println(produit.toString());
-        }
-
-        // Lancer l'interface utilisateur pour ajouter un produit
-        // ProductAdditionUI.launch(ProductAdditionUI.class, args);
-        // Lancer l'interface utilisateur pour supprimer un produit
-        ProductDeletionUI productDeletionUI = new ProductDeletionUI(magasin);
-        productDeletionUI.launch(args);
-
+     Magasin magasin = new Magasin("Mon Magasin", "123 Rue de la Ville");
+    public static void main(String[] args) {
+        launch(args);
     }
-    }
+    @Override
+public void start(Stage primaryStage) {
+    primaryStage.setTitle("Interface Principale");
 
+    VBox vbox = new VBox(10);  // Vertical Box
+
+    Button addButton = new Button("Ajouter Produit");
+    addButton.setOnAction(e -> {
+        ProductAdditionUI additionUI = new ProductAdditionUI();
+        Stage additionStage = new Stage();
+        additionUI.start(additionStage);
+    });
+
+    Button removeButton = new Button("Supprimer Produit");
+    // Lier ce bouton à l'interface de suppression
+    removeButton.setOnAction(e -> {
+        ProductDeletionUI removeUI = new ProductDeletionUI(magasin);
+        Stage removeStage = new Stage();
+        removeUI.start(removeStage);
+    });
+
+    Button reserveButton = new Button("Réserver Produit");
+    ReservationUI reservationUI = new ReservationUI(magasin);
+    Stage reservationStage = new Stage();
+    reserveButton.setOnAction(e -> reservationUI.start(reservationStage));
+
+    vbox.getChildren().addAll(addButton, removeButton, reserveButton);
+
+    Scene scene = new Scene(vbox, 200, 150);
+    primaryStage.setScene(scene);
+    primaryStage.show();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+}

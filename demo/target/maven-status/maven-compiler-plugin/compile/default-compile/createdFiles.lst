@@ -1,4 +1,6 @@
-com\example\MainApplication.class
+com\example\ReservationUI.class
 com\example\Magasin.class
 com\example\ProductAdditionUI.class
+com\example\Main.class
+com\example\ProductDeletionUI.class
 com\example\Produit.class
